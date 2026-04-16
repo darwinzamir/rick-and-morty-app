@@ -241,6 +241,14 @@ mutation {
 The character is not permanently deleted — it is hidden from results via the `is_deleted` flag.
 
 ---
+## API Documentation
+
+Two documentation interfaces are available when the backend is running:
+
+| Interface | URL | Description |
+|---|---|---|
+| Swagger UI | http://localhost:4000/api-docs | Full API documentation with examples |
+| GraphiQL | http://localhost:4000/graphql | Interactive GraphQL explorer |
 
 ## Running Tests
 
