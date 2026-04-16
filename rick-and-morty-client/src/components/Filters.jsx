@@ -1,8 +1,15 @@
+// Filters component — renders the search and filter controls for the character list.
+// Uses controlled inputs that notify the parent component of any change via onChange.
+
 export default function Filters({ filters, onChange }) {
+
+  // Helper function to update a single filter field while preserving the rest
   const update = (key, val) => onChange({ ...filters, [key]: val })
 
   return (
     <div className="flex flex-wrap gap-3 mb-6 p-4 bg-gray-800 rounded-xl border border-gray-700">
+
+      {/* Text search — partial match on character name */}
       <input
         type="text"
         placeholder="Search by name..."
@@ -10,6 +17,8 @@ export default function Filters({ filters, onChange }) {
         onChange={e => update('name', e.target.value)}
         className="flex-1 min-w-48 bg-gray-700 text-white rounded-lg px-3 py-2 text-sm border border-gray-600 focus:border-green-400 outline-none"
       />
+
+      {/* Status filter — exact match (Alive | Dead | unknown) */}
       <select
         value={filters.status}
         onChange={e => update('status', e.target.value)}
@@ -20,6 +29,8 @@ export default function Filters({ filters, onChange }) {
         <option value="Dead">Dead</option>
         <option value="unknown">Unknown</option>
       </select>
+
+      {/* Species filter — partial match */}
       <select
         value={filters.species}
         onChange={e => update('species', e.target.value)}
@@ -31,6 +42,8 @@ export default function Filters({ filters, onChange }) {
         <option value="Robot">Robot</option>
         <option value="Mythological Creature">Mythological Creature</option>
       </select>
+
+      {/* Gender filter — exact match */}
       <select
         value={filters.gender}
         onChange={e => update('gender', e.target.value)}
@@ -42,6 +55,8 @@ export default function Filters({ filters, onChange }) {
         <option value="Genderless">Genderless</option>
         <option value="unknown">Unknown</option>
       </select>
+
+      {/* Sort order — passed to the GraphQL query as sortBy argument */}
       <select
         value={filters.sortBy}
         onChange={e => update('sortBy', e.target.value)}
