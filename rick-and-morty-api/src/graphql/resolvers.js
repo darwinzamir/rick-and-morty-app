@@ -116,10 +116,17 @@ const resolvers = {
     const existing = await Favorite.findOne({ where: { character_id } });
     if (existing) {
       await existing.destroy(); // Remove from favorites
-      return false;
+    } else {
+      await Favorite.create({ character_id }); // Add to favorites
     }
-    await Favorite.create({ character_id }); // Add to favorites
-    return true;
+
+    // Invalidate Redis cache so updated favorite status appears immediately
+    try {
+      const keys = await redisClient.keys('rym:characters:*');
+      if (keys.length) await redisClient.del(keys);
+    } catch (e) {}
+
+    return !existing;
   },
 
   // Soft-deletes a character by setting is_deleted to true.
